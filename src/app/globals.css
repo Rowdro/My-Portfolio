@@ -1,0 +1,237 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* ── shadcn compatibility mapping ─────────────────────────────── */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* ── OBSIDIAN × SIGNAL design tokens ─────────────────────────── */
+  --color-abyss: var(--abyss);            /* page canvas        */
+  --color-surface: var(--surface);        /* raised panels      */
+  --color-surface-2: var(--surface-2);    /* hover elevation    */
+  --color-ink: var(--ink);                /* primary text       */
+  --color-ink-dim: var(--ink-dim);        /* secondary text     */
+  --color-ink-faint: var(--ink-faint);    /* tertiary text      */
+  --color-signal: var(--signal);          /* chartreuse accent  */
+  --color-signal-deep: var(--signal-deep);
+  --color-mint: var(--mint);              /* gradient partner   */
+  --color-line: var(--line);              /* hairline borders   */
+  --color-line-strong: var(--line-strong);
+
+  --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jbmono), ui-monospace, monospace;
+
+  --animate-marquee: marquee 36s linear infinite;
+  --animate-marquee-rev: marquee-rev 36s linear infinite;
+  --animate-spin-slow: spin 14s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-pulse-dot: pulse-dot 2.2s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes marquee-rev {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%      { transform: translateY(-14px); }
+  }
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(205, 251, 78, 0.45); }
+    50%      { box-shadow: 0 0 0 7px rgba(205, 251, 78, 0); }
+  }
+}
+
+/* ── Canvas: premium dark, warm-black undertone ─────────────────── */
+:root {
+  --radius: 0.75rem;
+  --abyss: #0a0a0b;
+  --surface: #121214;
+  --surface-2: #18181b;
+  --ink: #f0eee6;
+  --ink-dim: #a8a69e;
+  --ink-faint: #6d6b65;
+  --signal: #cdfb4e;
+  --signal-deep: #a4d029;
+  --mint: #37e2a2;
+  --line: rgba(240, 238, 230, 0.08);
+  --line-strong: rgba(240, 238, 230, 0.16);
+
+  /* shadcn aliases → dark palette */
+  --background: var(--abyss);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--signal);
+  --primary-foreground: #0a0a0b;
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--ink-dim);
+  --accent: var(--surface-2);
+  --accent-foreground: var(--ink);
+  --destructive: #ff5d5d;
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--signal);
+}
+
+.dark {
+  --background: var(--abyss);
+  --foreground: var(--ink);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    position: relative;
+  }
+
+  body {
+    @apply bg-abyss text-ink antialiased;
+    font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--signal);
+    color: #0a0a0b;
+  }
+
+  /* refined scrollbar */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--abyss); }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(240, 238, 230, 0.14);
+    border-radius: 8px;
+    border: 2px solid var(--abyss);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(240, 238, 230, 0.25); }
+
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ── Signature utilities ─────────────────────────────────────────── */
+
+/* Outlined display text (awwwards-style ghost words) */
+.text-stroke {
+  -webkit-text-stroke: 1px rgba(240, 238, 230, 0.22);
+  color: transparent;
+}
+
+/* Film grain overlay */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: overlay;
+}
+
+/* Gradient lighting glows */
+.glow-signal {
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 40%,
+    rgba(205, 251, 78, 0.13) 0%,
+    rgba(55, 226, 162, 0.06) 45%,
+    transparent 75%
+  );
+}
+.glow-soft {
+  background: radial-gradient(
+    ellipse 55% 45% at 50% 45%,
+    rgba(205, 251, 78, 0.08) 0%,
+    transparent 70%
+  );
+}
+
+/* Edge fade for marquees */
+.mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+
+/* Underline sweep for inline links */
+.link-sweep {
+  position: relative;
+}
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.link-sweep:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Hide native cursor when custom cursor is active (desktop only) */
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active a,
+  .custom-cursor-active button,
+  .custom-cursor-active [role="button"] {
+    cursor: none;
+  }
+}
+
+/* WebGL canvas should never capture selection */
+canvas {
+  touch-action: pan-y;
+}
